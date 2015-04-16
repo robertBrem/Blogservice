@@ -20,4 +20,8 @@ public class EntryService {
         return new HashSet<>(entries);
     }
 
+    public Entry create(Entry entry) {
+        return em.merge(entry);
+    }
+
 }
