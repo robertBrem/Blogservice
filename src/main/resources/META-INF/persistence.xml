@@ -1,0 +1,11 @@
+<persistence>
+    <persistence-unit name="blogservice"
+                      transaction-type="JTA">
+        <jta-data-source>java:jboss/jdbc/blogserviceDS</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.show_sql" value="false"/>
+        </properties>
+    </persistence-unit>
+</persistence>
