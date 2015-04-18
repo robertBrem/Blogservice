@@ -5,6 +5,7 @@ import expert.optimist.blog.blogservice.entity.Entry;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +22,7 @@ public class EntryService {
     }
 
     public Entry create(Entry entry) {
+        entry.setCreationDate(LocalDateTime.now());
         return em.merge(entry);
     }
 

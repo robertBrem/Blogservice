@@ -1,11 +1,14 @@
 package expert.optimist.blog.blogservice.entity;
 
+import expert.optimist.blog.blogservice.LocalDateTimeAdapter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ENTRIES")
@@ -26,4 +29,7 @@ public class Entry {
     private String title;
     private String teaser;
     private String content;
+
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
+    private LocalDateTime creationDate;
 }
