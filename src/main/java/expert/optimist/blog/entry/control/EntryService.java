@@ -1,6 +1,6 @@
-package expert.optimist.blog.blogservice.control;
+package expert.optimist.blog.entry.control;
 
-import expert.optimist.blog.blogservice.entity.Entry;
+import expert.optimist.blog.entry.entity.Entry;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,6 +17,7 @@ public class EntryService {
     EntityManager em;
 
     public Set<Entry> getAll() {
+        @SuppressWarnings("unchecked")
         List<Entry> entries = em.createNamedQuery("Entries.getAll").getResultList();
         return new HashSet<>(entries);
     }

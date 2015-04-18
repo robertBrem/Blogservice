@@ -1,4 +1,4 @@
-package expert.optimist.blog.blogservice;
+package expert.optimist.blog;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDateTime;

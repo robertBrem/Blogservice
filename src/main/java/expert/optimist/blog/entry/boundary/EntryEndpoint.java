@@ -1,8 +1,8 @@
-package expert.optimist.blog.blogservice.boundary;
+package expert.optimist.blog.entry.boundary;
 
 
-import expert.optimist.blog.blogservice.control.EntryService;
-import expert.optimist.blog.blogservice.entity.Entry;
+import expert.optimist.blog.entry.control.EntryService;
+import expert.optimist.blog.entry.entity.Entry;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;

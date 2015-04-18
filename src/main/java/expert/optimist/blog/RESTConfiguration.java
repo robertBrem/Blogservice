@@ -1,4 +1,4 @@
-package expert.optimist.blog.blogservice;
+package expert.optimist.blog;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
