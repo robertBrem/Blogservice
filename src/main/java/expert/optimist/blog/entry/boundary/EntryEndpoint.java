@@ -21,6 +21,13 @@ public class EntryEndpoint {
         return service.getAll();
     }
 
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Entry get(@PathParam("id") Long id) {
+        return service.get(id);
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

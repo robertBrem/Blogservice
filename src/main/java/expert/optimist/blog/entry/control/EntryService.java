@@ -27,4 +27,8 @@ public class EntryService {
         return em.merge(entry);
     }
 
+    public Entry get(Long id) {
+        return (Entry) em.createNamedQuery("Entries.findById").setParameter("id", id).getSingleResult();
+    }
+
 }

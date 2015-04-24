@@ -18,16 +18,17 @@ import java.util.Set;
 @Getter
 @EqualsAndHashCode(of = {"id"})
 @ToString
-@NamedQueries(
-        @NamedQuery(name = "Entries.getAll", query = "SELECT DISTINCT e FROM Entry e LEFT JOIN FETCH e.comments")
-)
+@NamedQueries({
+        @NamedQuery(name = "Entries.getAll", query = "SELECT DISTINCT e FROM Entry e LEFT JOIN FETCH e.comments"),
+        @NamedQuery(name = "Entries.findById", query = "SELECT DISTINCT e FROM Entry e LEFT JOIN FETCH e.comments WHERE e.id = :id")
+})
 public class Entry {
     @Id
     @SequenceGenerator(name = "EntriesSequence", sequenceName = "ENTRIES_ID_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EntriesSequence")
     @Column(name = "ENTRY_ID")
     private Long id;
-    
+
     @Column(unique = true)
     private String urlTitle;
 
