@@ -1,8 +1,11 @@
 package expert.optimist.blog.entry.control;
 
+import expert.optimist.blog.comment.control.CommentService;
+import expert.optimist.blog.comment.entity.Comment;
 import expert.optimist.blog.entry.entity.Entry;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
@@ -14,7 +17,10 @@ import java.util.Set;
 public class EntryService {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
+
+    @Inject
+    private CommentService commentService;
 
     public Set<Entry> getAll() {
         @SuppressWarnings("unchecked")
@@ -31,4 +37,12 @@ public class EntryService {
         return (Entry) em.createNamedQuery("Entries.findById").setParameter("id", id).getSingleResult();
     }
 
+    public Comment addComment(Long id, Comment comment) {
+        Entry entry = get(id);
+        if (entry == null) {
+            throw new IllegalArgumentException("Entry with id: " + id + " does not exist!");
+        }
+        comment.setEntry(entry);
+        return commentService.createComment(comment);
+    }
 }

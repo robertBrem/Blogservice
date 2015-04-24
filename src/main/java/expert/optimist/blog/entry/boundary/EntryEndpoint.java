@@ -1,6 +1,7 @@
 package expert.optimist.blog.entry.boundary;
 
 
+import expert.optimist.blog.comment.entity.Comment;
 import expert.optimist.blog.entry.control.EntryService;
 import expert.optimist.blog.entry.entity.Entry;
 
@@ -21,6 +22,14 @@ public class EntryEndpoint {
         return service.getAll();
     }
 
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Entry create(Entry entry) {
+        return service.create(entry);
+    }
+
+
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -29,10 +38,10 @@ public class EntryEndpoint {
     }
 
     @POST
+    @Path("{id}/comments")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Entry create(Entry entry) {
-        return service.create(entry);
+    public Comment get(@PathParam("id") Long id, Comment comment) {
+        return service.addComment(id, comment);
     }
-
 }
