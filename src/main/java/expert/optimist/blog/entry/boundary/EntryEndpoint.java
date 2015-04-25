@@ -38,6 +38,27 @@ public class EntryEndpoint {
     }
 
     @POST
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Entry update(@PathParam("id") Long id, Entry entry) {
+        if (entry.getId() == null) {
+            entry.setId(id);
+        } else {
+            if (!entry.getId().equals(id)) {
+                throw new IllegalArgumentException("Id: " + id + " does not match id of: " + entry);
+            }
+        }
+        return service.update(entry);
+    }
+
+    @DELETE
+    @Path("{id}")
+    public void delete(@PathParam("id") Long id) {
+        service.delete(id);
+    }
+
+    @POST
     @Path("{id}/comments")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

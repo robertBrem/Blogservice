@@ -40,18 +40,41 @@ public class EntryService {
 
     @RolesAllowed("admin")
     public Entry create(Entry entry) {
+        if (entry.getId() != null) {
+            Entry dbEntry = get(entry.getId());
+            if (dbEntry != null) {
+                throw new IllegalArgumentException(entry.getId() + " does exist!");
+            }
+        }
+
         entry.setCreationDate(LocalDateTime.now());
-
-        entry.setModDate(LocalDateTime.now());
-
-
+        entry.setUrlTitle(entry.getTitle().replaceAll("\\s", "_"));
+        updateModFields(entry);
         return em.merge(entry);
     }
 
     @PermitAll
     public Entry get(Long id) {
-        ctx.getCallerPrincipal();
         return (Entry) em.createNamedQuery("Entries.findById").setParameter("id", id).getSingleResult();
+    }
+
+    @RolesAllowed("admin")
+    public Entry update(Entry entry) {
+        Entry dbEntry = get(entry.getId());
+        if (dbEntry == null) {
+            throw new IllegalArgumentException(entry.getId() + " does not exist!");
+        }
+        updateModFields(entry);
+        return em.merge(entry);
+    }
+
+    @RolesAllowed("admin")
+    public void delete(Long id) {
+        Entry entry = get(id);
+        if (entry == null) {
+            throw new IllegalArgumentException("Entry with id: " + id + " does not exist!");
+        }
+        em.remove(entry);
     }
 
     @PermitAll
@@ -62,5 +85,10 @@ public class EntryService {
         }
         comment.setEntry(entry);
         return commentService.createComment(comment);
+    }
+
+    private void updateModFields(Entry entry) {
+        entry.setModDate(LocalDateTime.now());
+        entry.setModUser(ctx.getCallerPrincipal().getName());
     }
 }
