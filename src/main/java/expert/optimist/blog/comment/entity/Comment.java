@@ -38,6 +38,8 @@ public class Comment {
     private String urlTitle;
 
     private String author;
+
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @XmlTransient

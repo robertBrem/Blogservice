@@ -34,7 +34,11 @@ public class Entry {
 
     private String author;
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String teaser;
+
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @ElementCollection(fetch = FetchType.EAGER)
