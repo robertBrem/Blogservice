@@ -84,7 +84,7 @@ public class EntryService {
             throw new IllegalArgumentException("Entry with id: " + id + " does not exist!");
         }
         comment.setEntry(entry);
-        return commentService.createComment(comment);
+        return commentService.create(comment);
     }
 
     private void updateModFields(Entry entry) {

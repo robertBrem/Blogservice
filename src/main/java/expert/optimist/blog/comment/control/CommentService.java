@@ -23,13 +23,29 @@ public class CommentService {
         return em.find(Comment.class, id);
     }
 
-    public Comment createComment(Comment comment) {
+    public Comment create(Comment comment) {
         comment.setCreationDate(LocalDateTime.now());
         String author = comment.getAuthor().replaceAll("\\s", "_");
         String dateTime = comment.getCreationDate().format(DateTimeFormatter.ofPattern("yyyy_MM_dd__HH_mm_ss"));
         comment.setUrlTitle(author + "__" + dateTime);
         updateModFields(comment);
         return em.merge(comment);
+    }
+
+    public Comment update(Comment comment) {
+        Comment oldComment = get(comment.getId());
+        comment.setEntry(oldComment.getEntry());
+        comment.setChildren(oldComment.getChildren());
+        updateModFields(comment);
+        return em.merge(comment);
+    }
+
+    public void delete(Long id) {
+        Comment comment = get(id);
+        if (comment == null) {
+            throw new IllegalArgumentException("Comment with id: " + id + "does not exists!");
+        }
+        em.remove(comment);
     }
 
     private void updateModFields(Comment comment) {
