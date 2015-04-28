@@ -1,5 +1,6 @@
 package expert.optimist.blog.entry.control;
 
+import expert.optimist.blog.TextConverter;
 import expert.optimist.blog.comment.control.CommentService;
 import expert.optimist.blog.comment.entity.Comment;
 import expert.optimist.blog.entry.entity.Entry;
@@ -28,6 +29,9 @@ public class EntryService {
     @Inject
     private CommentService commentService;
 
+    @Inject
+    private TextConverter textConverter;
+
     @Resource
     private SessionContext ctx;
 
@@ -48,7 +52,7 @@ public class EntryService {
         }
 
         entry.setCreationDate(LocalDateTime.now());
-        entry.setUrlTitle(entry.getTitle().replaceAll("\\s", "_"));
+        entry.setUrlTitle(textConverter.getUrlTitle(entry.getTitle(), entry.getAuthor(), entry.getCreationDate()));
         updateModFields(entry);
         return em.merge(entry);
     }
@@ -56,6 +60,11 @@ public class EntryService {
     @PermitAll
     public Entry get(Long id) {
         return (Entry) em.createNamedQuery("Entries.findById").setParameter("id", id).getSingleResult();
+    }
+
+    @PermitAll
+    public Entry findByUrlTitle(String urlTitle) {
+        return (Entry) em.createNamedQuery("Entries.findByUrlTitle").setParameter("urlTitle", urlTitle).getSingleResult();
     }
 
     @RolesAllowed("admin")

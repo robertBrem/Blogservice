@@ -20,7 +20,8 @@ import java.util.Set;
 @ToString
 @NamedQueries({
         @NamedQuery(name = "Entries.getAll", query = "SELECT DISTINCT e FROM Entry e LEFT JOIN FETCH e.comments"),
-        @NamedQuery(name = "Entries.findById", query = "SELECT DISTINCT e FROM Entry e LEFT JOIN FETCH e.comments WHERE e.id = :id")
+        @NamedQuery(name = "Entries.findById", query = "SELECT DISTINCT e FROM Entry e LEFT JOIN FETCH e.comments WHERE e.id = :id"),
+        @NamedQuery(name = "Entries.findByUrlTitle", query = "SELECT DISTINCT e FROM Entry e LEFT JOIN FETCH e.comments WHERE e.urlTitle = :urlTitle")
 })
 public class Entry {
     @Id

@@ -1,14 +1,15 @@
 package expert.optimist.blog.comment.control;
 
+import expert.optimist.blog.TextConverter;
 import expert.optimist.blog.comment.entity.Comment;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Stateless
 public class CommentService {
@@ -19,15 +20,16 @@ public class CommentService {
     @Resource
     private SessionContext ctx;
 
+    @Inject
+    private TextConverter textConverter;
+
     public Comment get(Long id) {
         return em.find(Comment.class, id);
     }
 
     public Comment create(Comment comment) {
         comment.setCreationDate(LocalDateTime.now());
-        String author = comment.getAuthor().replaceAll("\\s", "_");
-        String dateTime = comment.getCreationDate().format(DateTimeFormatter.ofPattern("yyyy_MM_dd__HH_mm_ss"));
-        comment.setUrlTitle(author + "__" + dateTime);
+        comment.setUrlTitle(textConverter.getUrlTitle(comment.getAuthor(), comment.getCreationDate()));
         updateModFields(comment);
         return em.merge(comment);
     }
