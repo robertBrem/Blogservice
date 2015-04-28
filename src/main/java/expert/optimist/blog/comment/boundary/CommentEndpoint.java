@@ -20,6 +20,13 @@ public class CommentEndpoint {
         return service.get(id);
     }
 
+    @GET
+    @Path("{urlTitle}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Comment get(@PathParam("urlTitle") String urlTitle) {
+        return service.findByUrlTitle(urlTitle);
+    }
+
     @POST
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)

@@ -27,6 +27,10 @@ public class CommentService {
         return em.find(Comment.class, id);
     }
 
+    public Comment findByUrlTitle(String urlTitle) {
+        return (Comment) em.createNamedQuery("Comments.findByUrlTitle").setParameter("urlTitle", urlTitle).getSingleResult();
+    }
+
     public Comment create(Comment comment) {
         comment.setCreationDate(LocalDateTime.now());
         comment.setUrlTitle(textConverter.getUrlTitle(comment.getAuthor(), comment.getCreationDate()));

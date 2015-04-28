@@ -69,7 +69,7 @@ public class EntryEndpoint {
     @Path("{id}/comments")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Comment get(@PathParam("id") Long id, Comment comment) {
+    public Comment addComment(@PathParam("id") Long id, Comment comment) {
         return service.addComment(id, comment);
     }
 }

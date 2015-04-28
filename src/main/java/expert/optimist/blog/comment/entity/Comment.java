@@ -24,9 +24,10 @@ import java.util.Set;
 @Getter
 @EqualsAndHashCode(of = {"id"})
 @ToString
-@NamedQueries(
-        @NamedQuery(name = "Comments.getAll", query = "SELECT DISTINCT c FROM Comment c")
-)
+@NamedQueries({
+        @NamedQuery(name = "Comments.getAll", query = "SELECT DISTINCT c FROM Comment c"),
+        @NamedQuery(name = "Comments.findByUrlTitle", query = "SELECT DISTINCT c FROM Comment c WHERE c.urlTitle = :urlTitle")
+})
 public class Comment {
     @Id
     @SequenceGenerator(name = "CommentsSequence", sequenceName = "COMMENTS_ID_SEQ", allocationSize = 1)
