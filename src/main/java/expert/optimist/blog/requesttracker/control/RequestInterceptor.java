@@ -4,8 +4,10 @@ import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 
 public class RequestInterceptor {
 
@@ -25,17 +27,24 @@ public class RequestInterceptor {
         TrackerEndpoint endpoint = (TrackerEndpoint) target;
         HttpServletRequest req = endpoint.getRequest();
         String serviceName = getNameOfProxy(endpoint.getClass());
-        String methodName = ic.getMethod().getName();
-        JsonObject request = getJsonRequest(req, serviceName, methodName);
+        Method method = ic.getMethod();
+        Object[] parameters = ic.getParameters();
+        JsonObject request = getJsonRequest(req, serviceName, method, parameters);
         tracker.sendRequest(request);
 
         return ic.proceed();
     }
 
-    public JsonObject getJsonRequest(HttpServletRequest req, String serviceName, String methodName) {
+    public JsonObject getJsonRequest(HttpServletRequest req, String serviceName, Method method, Object[] parameters) {
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        for (Object parameter : parameters) {
+            arrayBuilder.add(parameter.toString());
+        }
+
         return Json.createObjectBuilder()
-                .add("service", serviceName)
-                .add("function", methodName)
+                .add("className", serviceName)
+                .add("functionName", method.getName())
+                .add("functionParameterValues", arrayBuilder.build())
                 .add("callerIp", req.getRemoteAddr())
                 .add("callerPort", req.getRemotePort())
                 .add("callerHost", req.getRemoteHost())

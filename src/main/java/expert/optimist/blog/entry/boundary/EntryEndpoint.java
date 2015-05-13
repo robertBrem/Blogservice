@@ -44,13 +44,6 @@ public class EntryEndpoint implements TrackerEndpoint {
     }
 
     @GET
-    @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Entry get(@PathParam("id") Long id) {
-        return service.get(id);
-    }
-
-    @GET
     @Path("{urlTitle}")
     @Produces(MediaType.APPLICATION_JSON)
     public Entry get(@PathParam("urlTitle") String urlTitle) {
