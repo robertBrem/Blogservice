@@ -4,17 +4,29 @@ package expert.optimist.blog.entry.boundary;
 import expert.optimist.blog.comment.entity.Comment;
 import expert.optimist.blog.entry.control.EntryService;
 import expert.optimist.blog.entry.entity.Entry;
+import expert.optimist.blog.requesttracker.control.RequestInterceptor;
 
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Set;
 
+@Interceptors(RequestInterceptor.class)
 @Path("entries")
 public class EntryEndpoint {
 
     @Inject
     EntryService service;
+
+    @Context
+    HttpServletRequest request;
+
+    public HttpServletRequest getRequest() {
+        return request;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -28,7 +40,6 @@ public class EntryEndpoint {
     public Entry create(Entry entry) {
         return service.create(entry);
     }
-
 
     @GET
     @Path("{id}")
