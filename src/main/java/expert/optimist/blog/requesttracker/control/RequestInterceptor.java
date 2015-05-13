@@ -1,7 +1,5 @@
 package expert.optimist.blog.requesttracker.control;
 
-import expert.optimist.blog.entry.boundary.EntryEndpoint;
-
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
@@ -11,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class RequestInterceptor {
 
+    public static final String PROXY_IDENTIFIER = "$Proxy$_$$_";
+
     @Inject
     Requesttracker tracker;
 
@@ -18,20 +18,33 @@ public class RequestInterceptor {
     protected Object protocolInvocation(final InvocationContext ic)
             throws Exception {
         Object target = ic.getTarget();
-        if (!(target instanceof EntryEndpoint)) {
+        if (!(target instanceof TrackerEndpoint)) {
             return ic.proceed();
         }
-        EntryEndpoint endpoint = (EntryEndpoint) target;
-        HttpServletRequest req = endpoint.getRequest();
 
-        JsonObject request = Json.createObjectBuilder()
-                .add("service", endpoint.getClass().getName())
-                .add("function", ic.getMethod().getName())
+        TrackerEndpoint endpoint = (TrackerEndpoint) target;
+        HttpServletRequest req = endpoint.getRequest();
+        String serviceName = getNameOfProxy(endpoint.getClass());
+        String methodName = ic.getMethod().getName();
+        JsonObject request = getJsonRequest(req, serviceName, methodName);
+        tracker.sendRequest(request);
+
+        return ic.proceed();
+    }
+
+    public JsonObject getJsonRequest(HttpServletRequest req, String serviceName, String methodName) {
+        return Json.createObjectBuilder()
+                .add("service", serviceName)
+                .add("function", methodName)
                 .add("callerIp", req.getRemoteAddr())
                 .add("callerPort", req.getRemotePort())
                 .add("callerHost", req.getRemoteHost())
                 .build();
-        tracker.sendRequest(request);
-        return ic.proceed();
+    }
+
+    public String getNameOfProxy(Class<?> proxyClass) {
+        String proxyName = proxyClass.getName();
+        int proxyIndex = proxyName.indexOf(PROXY_IDENTIFIER);
+        return proxyName.substring(0, proxyIndex);
     }
 }

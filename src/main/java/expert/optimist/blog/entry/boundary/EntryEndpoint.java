@@ -5,6 +5,7 @@ import expert.optimist.blog.comment.entity.Comment;
 import expert.optimist.blog.entry.control.EntryService;
 import expert.optimist.blog.entry.entity.Entry;
 import expert.optimist.blog.requesttracker.control.RequestInterceptor;
+import expert.optimist.blog.requesttracker.control.TrackerEndpoint;
 
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -16,7 +17,7 @@ import java.util.Set;
 
 @Interceptors(RequestInterceptor.class)
 @Path("entries")
-public class EntryEndpoint {
+public class EntryEndpoint implements TrackerEndpoint {
 
     @Inject
     EntryService service;
@@ -24,6 +25,7 @@ public class EntryEndpoint {
     @Context
     HttpServletRequest request;
 
+    @Override
     public HttpServletRequest getRequest() {
         return request;
     }
