@@ -24,6 +24,8 @@ public class RequestInterceptor {
             return ic.proceed();
         }
 
+        Object proceed = ic.proceed();
+
         TrackerEndpoint endpoint = (TrackerEndpoint) target;
         HttpServletRequest req = endpoint.getRequest();
         String serviceName = getNameOfProxy(endpoint.getClass());
@@ -32,7 +34,7 @@ public class RequestInterceptor {
         JsonObject request = getJsonRequest(req, serviceName, method, parameters);
         tracker.sendRequest(request);
 
-        return ic.proceed();
+        return proceed;
     }
 
     public JsonObject getJsonRequest(HttpServletRequest req, String serviceName, Method method, Object[] parameters) {
