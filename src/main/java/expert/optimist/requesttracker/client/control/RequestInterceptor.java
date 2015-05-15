@@ -1,4 +1,4 @@
-package expert.optimist.blog.requesttracker.control;
+package expert.optimist.requesttracker.client.control;
 
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;

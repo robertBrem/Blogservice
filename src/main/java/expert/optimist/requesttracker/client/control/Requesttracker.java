@@ -1,5 +1,4 @@
-package expert.optimist.blog.requesttracker.control;
-
+package expert.optimist.requesttracker.client.control;
 
 import javax.ejb.Stateless;
 import javax.json.JsonObject;

@@ -2,8 +2,8 @@ package expert.optimist.blog.comment.boundary;
 
 import expert.optimist.blog.comment.control.CommentService;
 import expert.optimist.blog.comment.entity.Comment;
-import expert.optimist.blog.requesttracker.control.RequestInterceptor;
-import expert.optimist.blog.requesttracker.control.TrackerEndpoint;
+import expert.optimist.requesttracker.client.control.RequestInterceptor;
+import expert.optimist.requesttracker.client.control.TrackerEndpoint;
 
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
