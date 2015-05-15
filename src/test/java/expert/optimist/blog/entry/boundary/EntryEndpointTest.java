@@ -45,7 +45,7 @@ public class EntryEndpointTest {
     }
 
     @Test
-    public void should_set_the_id() {
+    public void should_set_the_id_of_the_entry() {
         Random r = new Random();
         Long id = (long) r.nextInt(100);
         Entry entry = new Entry();
