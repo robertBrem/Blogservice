@@ -31,7 +31,7 @@ public class EntryEndpointTest {
     @Test
     public void should_call_service_update() {
         Random r = new Random();
-        Long id = (long) r.nextInt(100);
+        Long id = (long) r.nextInt(50);
         Entry entry = new Entry();
         entry.setId(id);
 
