@@ -44,6 +44,37 @@
     </dependencies>
     <build>
         <finalName>blogservice</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <!--
+                        Enables analysis which takes more memory but finds more bugs.
+                        If you run out of memory, changes the value of the effort element
+                        to 'low'.
+                    -->
+                    <effort>Max</effort>
+                    <!-- Reports all bugs (other values are medium and max) -->
+                    <threshold>Low</threshold>
+                    <!-- Produces XML report -->
+                    <xmlOutput>true</xmlOutput>
+                </configuration>
+                <executions>
+                    <!--
+                        Ensures that FindBugs inspects source code when project is compiled.
+                    -->
+                    <execution>
+                        <id>analyze-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
         <!--plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -51,12 +82,13 @@
                 <version>0.7.4.201502262128</version>
                 <executions>
                     <execution>
+                        <id>default-prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>report</id>
+                        <id>default-report</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>report</goal>
@@ -64,7 +96,7 @@
                     </execution>
                 </executions>
             </plugin>
-        </plugins -->
+        </plugins-->
     </build>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
