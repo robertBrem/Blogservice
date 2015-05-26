@@ -17,6 +17,7 @@ public class Requesttracker {
         return client
                 .target(REST_SERVICE_URL)
                 .request()
+                .async()
                 .post(Entity.json(object)).toString();
     }
 
